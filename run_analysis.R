@@ -4,161 +4,58 @@ if (!file.exists("UCI HAR Dataset")){stop("No data - UCI HAR Dataset must be in 
 # will need to check that plr and dplyr libraries are present
 library(plyr)
 library(dplyr)
+
 # read in the activity labels
-activitylbls <- read.table("UCI HAR Dataset/activity_labels.txt")
+activitylbls <- read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE)
+
+# read in the features.txt of column names in the 'X' tables 
+features <- read.table("UCI HAR Dataset/features.txt", stringsAsFactors = FALSE)
+# create a selection vector using grep that matches only the elements containing std() or mean()
+select_vec = grep("std()|mean()", features[,2], perl = TRUE)
+# create a names_vec to use later
+names_vec <- features[select_vec, 2]
 
 # first go-around is the test data
 
 # read the subject
-subject <- read.table("UCI HAR Dataset/test/subject_test.txt")
-names(subject) <- "subject"
-# read the y_test, give it a meaningful name by joining it ti the activities table
-y <- read.table("UCI HAR Dataset/test/y_test.txt")
-ans1 <- join(y, activitylbls)
-activity <- ans1[,2]
+subject_test <- read.table("UCI HAR Dataset/test/subject_test.txt",stringsAsFactors = FALSE)
+names(subject_test) <- "subject"
+# read the y_test, give it a meaningful name by joining it to the activities table
+y_test <- read.table("UCI HAR Dataset/test/y_test.txt",stringsAsFactors = FALSE)
+ans1_test <- join(y_test, activitylbls)
+activity_test <- ans1_test[,2]
 
 # read the X_test
-X<- read.table("UCI HAR Dataset/test/X_test.txt")
-# now create mean and sd from X
-X_mean <- rowMeans(X)
-X_sd <- apply(X, 1, sd)
-
-# read the body_acc_x_test
-body_acc_x <- read.table("UCI HAR Dataset/test/Inertial Signals/body_acc_x_test.txt")
-# now create mean and sd from body_acc_x
-body_acc_x_mean <- rowMeans(body_acc_x)
-body_acc_x_sd <- apply(body_acc_x, 1, sd)
-# read the body_acc_y_test
-body_acc_y <- read.table("UCI HAR Dataset/test/Inertial Signals/body_acc_y_test.txt")
-# now create mean and sd from body_acc_y
-body_acc_y_mean <- rowMeans(body_acc_y)
-body_acc_y_sd <- apply(body_acc_y, 1, sd)
-# read the body_acc_z_test
-body_acc_z <- read.table("UCI HAR Dataset/test/Inertial Signals/body_acc_z_test.txt")
-# now create mean and sd from body_acc_z
-body_acc_z_mean <- rowMeans(body_acc_z)
-body_acc_z_sd <- apply(body_acc_z, 1, sd)
-
-# read the body_gyro_x_test
-body_gyro_x <- read.table("UCI HAR Dataset/test/Inertial Signals/body_gyro_x_test.txt")
-# now create mean and sd from body_gyro_x
-body_gyro_x_mean <- rowMeans(body_gyro_x)
-body_gyro_x_sd <- apply(body_gyro_x, 1, sd)
-# read the body_gyro_y_test
-body_gyro_y <- read.table("UCI HAR Dataset/test/Inertial Signals/body_gyro_y_test.txt")
-# now create mean and sd from body_gyro_y
-body_gyro_y_mean <- rowMeans(body_gyro_y)
-body_gyro_y_sd <- apply(body_gyro_y, 1, sd)
-# read the body_gyro_z_test
-body_gyro_z<- read.table("UCI HAR Dataset/test/Inertial Signals/body_gyro_z_test.txt")
-# now create mean and sd from body_gyro_z
-body_gyro_z_mean <- rowMeans(body_gyro_z)
-body_gyro_z_sd <- apply(body_gyro_z, 1, sd)
-
-# read the total_acc_x_test
-total_acc_x <- read.table("UCI HAR Dataset/test/Inertial Signals/total_acc_x_test.txt")
-# now create mean and sd from total_acc_x
-total_acc_x_mean <- rowMeans(total_acc_x)
-total_acc_x_sd <- apply(total_acc_x, 1, sd)
-# read the total_acc_y_test
-total_acc_y <- read.table("UCI HAR Dataset/test/Inertial Signals/total_acc_y_test.txt")
-# now create mean and sd from total_acc_y
-total_acc_y_mean <- rowMeans(total_acc_y)
-total_acc_y_sd <- apply(total_acc_y, 1, sd)
-# read the total_acc_z_test
-total_acc_z <- read.table("UCI HAR Dataset/test/Inertial Signals/total_acc_z_test.txt")
-# now create mean and sd from total_acc_z
-total_acc_z_mean <- rowMeans(total_acc_z)
-total_acc_z_sd <- apply(total_acc_z, 1, sd)
-
-#bind these together to form the tidy data frame 'tidydf_test'
-tidydf_test <- cbind(subject, activity,
-                X_mean, X_sd,
-                body_acc_x_mean, body_acc_x_sd, 
-                body_acc_y_mean, body_acc_y_sd,
-                body_acc_z_mean, body_acc_z_sd,
-                body_gyro_x_mean, body_gyro_x_sd, 
-                body_gyro_y_mean, body_gyro_y_sd,
-                body_gyro_z_mean, body_gyro_z_sd,
-                total_acc_x_mean, total_acc_x_sd, 
-                total_acc_y_mean, total_acc_y_sd,
-                total_acc_z_mean, total_acc_z_sd
-                )
+X_test<- read.table("UCI HAR Dataset/test/X_test.txt")
+#names(X_test)<- activitylbls
+# reduce it to just the mean and std columns
+#X_test <- X_test[,select_vec]
 
 # second go-around is the train data
 
 # read the subject
-subject <- read.table("UCI HAR Dataset/train/subject_train.txt")
-names(subject) <- "subject"
+subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt",stringsAsFactors = FALSE)
+names(subject_train) <- "subject"
 # read the y_test, give it a meaningful name by joining it ti the activities table
-y <- read.table("UCI HAR Dataset/train/y_train.txt")
-ans1 <- join(y, activitylbls)
-activity <- ans1[,2]
+y_train <- read.table("UCI HAR Dataset/train/y_train.txt",stringsAsFactors = FALSE)
+ans1_train <- join(y_train, activitylbls)
+activity_train <- ans1_train[,2]
 
-# read the X_test
-X<- read.table("UCI HAR Dataset/train/X_train.txt")
-# now create mean and sd from X
-X_mean <- rowMeans(X)
-X_sd <- apply(X, 1, sd)
+# read the X_train
+X_train<- read.table("UCI HAR Dataset/train/X_train.txt")
+#names(X_train)<- activitylbls
 
-# read the body_acc_x_train
-body_acc_x <- read.table("UCI HAR Dataset/train/Inertial Signals/body_acc_x_train.txt")
-# now create mean and sd from body_acc_x
-body_acc_x_mean <- rowMeans(body_acc_x)
-body_acc_x_sd <- apply(body_acc_x, 1, sd)
-# read the body_acc_y_train
-body_acc_y <- read.table("UCI HAR Dataset/train/Inertial Signals/body_acc_y_train.txt")
-# now create mean and sd from body_acc_y
-body_acc_y_mean <- rowMeans(body_acc_y)
-body_acc_y_sd <- apply(body_acc_y, 1, sd)
-# read the body_acc_z_train
-body_acc_z <- read.table("UCI HAR Dataset/train/Inertial Signals/body_acc_z_train.txt")
-# now create mean and sd from body_acc_z
-body_acc_z_mean <- rowMeans(body_acc_z)
-body_acc_z_sd <- apply(body_acc_z, 1, sd)
+# bow bind test and training sets to create the full set 
+subject <- rbind(subject_test, subject_train)
+activity <- c(activity_test ,activity_train)
+X <- rbind(X_test, X_train)
+# clear the intermdiates 
+rm(X_test, X_train,  
+   subject_test, subject_train, y_test, y_train,
+   ans1_train, ans1_test)
 
-# read the body_gyro_x_train
-body_gyro_x <- read.table("UCI HAR Dataset/train/Inertial Signals/body_gyro_x_train.txt")
-# now create mean and sd from body_gyro_x
-body_gyro_x_mean <- rowMeans(body_gyro_x)
-body_gyro_x_sd <- apply(body_gyro_x, 1, sd)
-# read the body_gyro_y_train
-body_gyro_y <- read.table("UCI HAR Dataset/train/Inertial Signals/body_gyro_y_train.txt")
-# now create mean and sd from body_gyro_y
-body_gyro_y_mean <- rowMeans(body_gyro_y)
-body_gyro_y_sd <- apply(body_gyro_y, 1, sd)
-# read the body_gyro_z_train
-body_gyro_z<- read.table("UCI HAR Dataset/train/Inertial Signals/body_gyro_z_train.txt")
-# now create mean and sd from body_gyro_z
-body_gyro_z_mean <- rowMeans(body_gyro_z)
-body_gyro_z_sd <- apply(body_gyro_z, 1, sd)
-
-# read the total_acc_x_train
-total_acc_x <- read.table("UCI HAR Dataset/train/Inertial Signals/total_acc_x_train.txt")
-# now create mean and sd from total_acc_x
-total_acc_x_mean <- rowMeans(total_acc_x)
-total_acc_x_sd <- apply(total_acc_x, 1, sd)
-# read the total_acc_y_train
-total_acc_y <- read.table("UCI HAR Dataset/train/Inertial Signals/total_acc_y_train.txt")
-# now create mean and sd from total_acc_y
-total_acc_y_mean <- rowMeans(total_acc_y)
-total_acc_y_sd <- apply(total_acc_y, 1, sd)
-# read the total_acc_z_train
-total_acc_z <- read.table("UCI HAR Dataset/train/Inertial Signals/total_acc_z_train.txt")
-# now create mean and sd from total_acc_z
-total_acc_z_mean <- rowMeans(total_acc_z)
-total_acc_z_sd <- apply(total_acc_z, 1, sd)
-
-#bind these together to form the tidy data frame 'tidydf_train'
-tidydf_train <- cbind(subject, activity,
-                     X_mean, X_sd,
-                     body_acc_x_mean, body_acc_x_sd, 
-                     body_acc_y_mean, body_acc_y_sd,
-                     body_acc_z_mean, body_acc_z_sd,
-                     body_gyro_x_mean, body_gyro_x_sd, 
-                     body_gyro_y_mean, body_gyro_y_sd,
-                     body_gyro_z_mean, body_gyro_z_sd,
-                     total_acc_x_mean, total_acc_x_sd, 
-                     total_acc_y_mean, total_acc_y_sd,
-                     total_acc_z_mean, total_acc_z_sd
-)
+# reduce X to just the mean and std columns
+X <- X[,select_vec]
+names(X) <- names_vec
+# cbind them together for our tidy data set
+tidy_df <- cbind(subject, activity, X)
