@@ -36,7 +36,7 @@ extracted the "UCI HAR Dataset" directory to.
 
 ###Cleaning of the data
 The script merges the test and training data sets and identifies those 'features' of the 'X' records that have either
-'mean' or 'std' in their desriptions See the README.md document for a fuller description of the code.
+'mean()' or 'std()' in their desriptions See the README.md document for a fuller description of the code.
 The activity codes are expanded to the fuller description from the activity_labels.txt file
 Then a mean is calculated for each observation type within each subject. (giving us 180 'true' observations)
 This is then 'melted' into the long form that is better for analysis on the basis that each metric that we summarised

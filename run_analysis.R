@@ -1,17 +1,18 @@
 # check that data set is present in the working directory
 if (!file.exists("UCI HAR Dataset")){stop("No data - UCI HAR Dataset must be in the workign directory ")}
 
-# will need to check that plr and dplyr libraries are present
+# will need to check that plr and dplyr and reshape2 libraries are present
 library(plyr)
 library(dplyr)
+library(reshape2)
 
 # read in the activity labels
 activitylbls <- read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE)
 
 # read in the features.txt of column names in the 'X' tables 
 features <- read.table("UCI HAR Dataset/features.txt", stringsAsFactors = FALSE)
-# create a selection vector using grep that matches only the elements containing std or mean
-select_vec = grep("std|mean", features[,2], perl = TRUE)
+# create a selection vector using grep that matches only the elements containing std() or mean()
+select_vec = grep("std()|mean()", features[,2], perl = TRUE)
 # create a names_vec to use later
 names_vec <- features[select_vec, 2]
 
