@@ -10,8 +10,8 @@ activitylbls <- read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFacto
 
 # read in the features.txt of column names in the 'X' tables 
 features <- read.table("UCI HAR Dataset/features.txt", stringsAsFactors = FALSE)
-# create a selection vector using grep that matches only the elements containing std() or mean()
-select_vec = grep("std()|mean()", features[,2], perl = TRUE)
+# create a selection vector using grep that matches only the elements containing std or mean
+select_vec = grep("std|mean", features[,2], perl = TRUE)
 # create a names_vec to use later
 names_vec <- features[select_vec, 2]
 
@@ -27,9 +27,6 @@ activity_test <- ans1_test[,2]
 
 # read the X_test
 X_test<- read.table("UCI HAR Dataset/test/X_test.txt")
-#names(X_test)<- activitylbls
-# reduce it to just the mean and std columns
-#X_test <- X_test[,select_vec]
 
 # second go-around is the train data
 
@@ -43,19 +40,36 @@ activity_train <- ans1_train[,2]
 
 # read the X_train
 X_train<- read.table("UCI HAR Dataset/train/X_train.txt")
-#names(X_train)<- activitylbls
 
-# bow bind test and training sets to create the full set 
+# row bind test and training sets to create the full set 
 subject <- rbind(subject_test, subject_train)
 activity <- c(activity_test ,activity_train)
 X <- rbind(X_test, X_train)
-# clear the intermdiates 
-rm(X_test, X_train,  
-   subject_test, subject_train, y_test, y_train,
-   ans1_train, ans1_test)
+
 
 # reduce X to just the mean and std columns
 X <- X[,select_vec]
 names(X) <- names_vec
-# cbind them together for our tidy data set
-tidy_df <- cbind(subject, activity, X)
+# cbind them together for our temp data set
+temp_df <- cbind(subject, activity, X)
+
+# clear the intermediates 
+rm(X_test, X_train,
+   subject_test, subject_train,
+   y_test, y_train,
+   ans1_train, ans1_test,
+   activity_train, activity_test,
+   activitylbls, activity,
+   features, subject,
+   names_vec,
+   select_vec, 
+   X
+   )
+# now melt this large blob of data to a "narrow" form that we can summarise
+melted_df <- melt(temp_df, id = c("subject", "activity"))
+
+# what we want is the 30 subjects 6 activities summarised - i.e. 180 rows of "wide form"
+tidy_df <- dcast(melted_df, subject + activity ~ variable, mean)
+
+# write that tidied data frame out to a file 
+write.table(tidy_df, file = "tidy.txt", row.names = FALSE)
