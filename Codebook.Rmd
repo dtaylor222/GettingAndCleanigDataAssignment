@@ -22,7 +22,7 @@ The orignal experiment and its associated data is described in the README.txt in
 What is seen in there is split into training (2947 observations) and test (7352 observations) data sets.
 
 These observations are split into three text files (subject<suffix>.txt, y<suffix>.txt and X<suffix>.txt where <suffix> is _test or _train)
-where suject is the subject, y is the actiity code and X is the sumary data created from the "true" raw data in the Inertial signals
+where subject is the subject, y is the activity code and X is the summary data created from the "true" raw data in the Inertial signals
 subdirectory.
 
 Each activity code is described in the activity_labels.txt file - we need his to meaningfully interpret the data.
@@ -36,34 +36,92 @@ extracted the "UCI HAR Dataset" directory to.
 
 ###Cleaning of the data
 The script merges the test and training data sets and identifies those 'features' of the 'X' records that have either
-'mean' or 'std' in their desriptions [See the README.md document for a fuller description]()
+'mean' or 'std' in their desriptions See the README.md document for a fuller description of the code.
 The activity codes are expanded to the fuller description from the activity_labels.txt file
-Then a mean is calculated for each observation type within each subject
+Then a mean is calculated for each observation type within each subject.
 
 ##Description of the variables in the tiny_data.txt file
-General description of the file including:
- - Dimensions of the dataset
- - Summary of the data
- - Variables present in the dataset
+Apart from subject identifier (number 1 : 6 ) and activity (facttor w/ 6 levels "LAYING","SITTING",..: 1 2 3 4), the variable names remain as per the descriptions in the source features.txt and are dimensionless
 
-(you can easily use Rcode for this, just load the dataset and provide the information directly form the tidy data file)
+subject
+activity
+tBodyAcc-mean()-X
+tBodyAcc-mean()-Y
+tBodyAcc-mean()-Z
+tBodyAcc-std()-X
+tBodyAcc-std()-Y
+tBodyAcc-std()-Z
+tGravityAcc-mean()-X
+tGravityAcc-mean()-Y
+tGravityAcc-mean()-Z
+tGravityAcc-std()-X
+tGravityAcc-std()-Y
+tGravityAcc-std()-Z
+tBodyAccJerk-mean()-X
+tBodyAccJerk-mean()-Y
+tBodyAccJerk-mean()-Z
+tBodyAccJerk-std()-X
+tBodyAccJerk-std()-Y
+tBodyAccJerk-std()-Z
+tBodyGyro-mean()-X
+tBodyGyro-mean()-Y
+tBodyGyro-mean()-Z
+tBodyGyro-std()-X
+tBodyGyro-std()-Y
+tBodyGyro-std()-Z
+tBodyGyroJerk-mean()-X
+tBodyGyroJerk-mean()-Y
+tBodyGyroJerk-mean()-Z
+tBodyGyroJerk-std()-X
+tBodyGyroJerk-std()-Y
+tBodyGyroJerk-std()-Z
+tBodyAccMag-mean()
+tBodyAccMag-std()
+tGravityAccMag-mean()
+tGravityAccMag-std()
+tBodyAccJerkMag-mean()
+tBodyAccJerkMag-std()
+tBodyGyroMag-mean()
+tBodyGyroMag-std()
+tBodyGyroJerkMag-mean()
+tBodyGyroJerkMag-std()
+fBodyAcc-mean()-X
+fBodyAcc-mean()-Y
+fBodyAcc-mean()-Z
+fBodyAcc-std()-X
+fBodyAcc-std()-Y
+fBodyAcc-std()-Z
+fBodyAcc-meanFreq()-X
+fBodyAcc-meanFreq()-Y
+fBodyAcc-meanFreq()-Z
+fBodyAccJerk-mean()-X
+fBodyAccJerk-mean()-Y
+fBodyAccJerk-mean()-Z
+fBodyAccJerk-std()-X
+fBodyAccJerk-std()-Y
+fBodyAccJerk-std()-Z
+fBodyAccJerk-meanFreq()-X
+fBodyAccJerk-meanFreq()-Y
+fBodyAccJerk-meanFreq()-Z
+fBodyGyro-mean()-X
+fBodyGyro-mean()-Y
+fBodyGyro-mean()-Z
+fBodyGyro-std()-X
+fBodyGyro-std()-Y
+fBodyGyro-std()-Z
+fBodyGyro-meanFreq()-X
+fBodyGyro-meanFreq()-Y
+fBodyGyro-meanFreq()-Z
+fBodyAccMag-mean()
+fBodyAccMag-std()
+fBodyAccMag-meanFreq()
+fBodyBodyAccJerkMag-mean()
+fBodyBodyAccJerkMag-std()
+fBodyBodyAccJerkMag-meanFreq()
+fBodyBodyGyroMag-mean()
+fBodyBodyGyroMag-std()
+fBodyBodyGyroMag-meanFreq()
+fBodyBodyGyroJerkMag-mean()
+fBodyBodyGyroJerkMag-std()
+fBodyBodyGyroJerkMag-meanFreq()
 
-###Variable 1 (repeat this section for all variables in the dataset)
-Short description of what the variable describes.
-
-Some information on the variable including:
- - Class of the variable
- - Unique values/levels of the variable
- - Unit of measurement (if no unit of measurement list this as well)
- - In case names follow some schema, describe how entries were constructed (for example time-body-gyroscope-z has 4 levels of descriptors. Describe these 4 levels). 
-
-(you can easily use Rcode for this, just load the dataset and provide the information directly form the tidy data file)
-
-####Notes on variable 1:
-If available, some additional notes on the variable not covered elsewehere. If no notes are present leave this section out.
-
-##Sources
-Sources you used if any, otherise leave out.
-
-##Annex
-If you used any code in the codebook that had the echo=FALSE attribute post this here (make sure you set the results parameter to 'hide' as you do not want the results to show again)
