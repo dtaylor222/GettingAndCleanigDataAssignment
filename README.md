@@ -35,6 +35,8 @@ in short it follows the first 4 stages to create data frame temp_df
 * which are then summarised as the tidy_df 
 * which is output to file tidy.txt
 
-temp_df is left in the environment so you can see the 'raw' extract
-melted_df is left in the ewnvironment so you can see the narrowed form prior to summary
-temp_df is there as well so you can compare it to the tidy.txt table you load in
+temp_df is left in the environment so you can see the 'raw' extract from the data
+
+melted_df is left in the environment so you can see the narrowed form prior to summary
+
+temp_df is there as well so you can compare it to the tidy.txt table you will load in
