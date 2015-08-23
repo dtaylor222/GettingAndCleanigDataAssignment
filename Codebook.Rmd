@@ -1,6 +1,6 @@
 ---
 title: "Codebook For GettingAndCleaningDataAssignemnt"
-author: "David Taylor"
+author: "David Taylor - taken from the Gistfile.Rmd template"
 date: "23rd August 2015"
 output:
   html_document:
@@ -8,23 +8,37 @@ output:
 ---
 
 ## Project Description
-Short description of the project
+The aim of the projet is to take the "UCI HAR Dataset" provided at :
+
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+
+and produce from it a 'tidy' data set that xtracts only the measurements on the mean and standard deviation for each measurement
+then creates an independent tidy data set with the average of each variable for each activity and each subject
 
 ##Study design and data processing
 
 ###Collection of the raw data
-Description of how the data was collected.
+The orignal experiment and its associated data is described in the README.txt in the "UCI HAR Dataset" directory.
+What is seen in there is split into training (2947 observations) and test (7352 observations) data sets.
 
-###Notes on the original (raw) data 
-Some additional notes (if avaialble, otherwise you can leave this section out).
+These observations are split into three text files (subject<suffix>.txt, y<suffix>.txt and X<suffix>.txt where <suffix> is _test or _train)
+where suject is the subject, y is the actiity code and X is the sumary data created from the "true" raw data in the Inertial signals
+subdirectory.
+
+Each activity code is described in the activity_labels.txt file - we need his to meaningfully interpret the data.
+Each of the 561 data fields per row in the 'X' data file is described in the features.txt file
 
 ##Creating the tidy datafile
 
 ###Guide to create the tidy data file
-Description on how to create the tidy data file (1. download the data, ...)/
+To create the tidy data file you should execute the run_analysis.R script in the same working directory that you have
+extracted the "UCI HAR Dataset" directory to.
 
 ###Cleaning of the data
-Short, high-level description of what the cleaning script does. [link to the readme document that describes the code in greater detail]()
+The script merges the test and training data sets and identifies those 'features' of the 'X' records that have either
+'mean' or 'std' in their desriptions [See the README.md document for a fuller description]()
+The activity codes are expanded to the fuller description from the activity_labels.txt file
+Then a mean is calculated for each observation type within each subject
 
 ##Description of the variables in the tiny_data.txt file
 General description of the file including:

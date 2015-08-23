@@ -29,7 +29,7 @@ in short it follows the first 4 stages to create data frame temp_df
 * read the 'y' data , giving it a meaningful name by joining it to the activities table
 * read the 'X' data 
 * row bind test and training sets to create the full set 
-* reduce 'X' data to just the columns containing mean and std in the descriptio
+* reduce 'X' data to just the columns containing mean and std in the description
 * bind together subject activity and 'X' data for our temp data set
 * this is then melted to reduce it to 4 columns as melted_df
 * which are then summarised as the tidy_df 
