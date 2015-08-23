@@ -6,7 +6,8 @@ The run_analsys.R script requires that the "UCI HAR Dataset" has been uncompress
 and loaded into the working directory.
 
 Our resulting observations are the 30 participants each doing six activiites so
-we end up with a 180 row (observation) data frame in the wide form
+we end up initially with a 180 row (observation) data frame in the wide form
+This is then normalised to the long form with 14220 observations (180 * 79)
 
 The question splits the code natually into 5 parts:
 

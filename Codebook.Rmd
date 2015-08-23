@@ -45,10 +45,11 @@ is an ovbservation in its own right
 ##Description of the variables in the tiny_data.txt file
 
 ### subject
-Which of the thirty subjects was under test recorded as an integer
+Which of the thirty subjects was under test recorded as an integer (1 -30)
 ### activity 
 Which of the six activities was being conducted
+Factor w/ 6 levels  "LAYING"  "SITTING"  "STANDING" "WALKING" "WALKING_DOWNSTAIRS" "WALKING_UPSTAIRS" 
 ### variable
-Which of the metrics in the raw data is being summarised
+Which of the metrics in the raw data is being summarised string as per features.txt in original data
 ### mean
-The mean value recorded for this subject / activity / metric observation
+The mean value recorded for this subject / activity / metric observation (dimensionless as data normalised)
