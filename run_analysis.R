@@ -71,5 +71,10 @@ melted_df <- melt(temp_df, id = c("subject", "activity"))
 # what we want is the 30 subjects 6 activities summarised - i.e. 180 rows of "wide form"
 tidy_df <- dcast(melted_df, subject + activity ~ variable, mean)
 
+# now melt that in turn to produce the cleaner "long" form on the basis that each metric
+# is an observation in it own right (which could be debated !) easier to use though
+# and is directly equivalent and reversible as no data altered
+tidiest_df <- melt(tidy_df, id = c("subject", "activity"))
+
 # write that tidied data frame out to a file 
-write.table(tidy_df, file = "tidy.txt", row.names = FALSE)
+write.table(tidiest_df, file = "tidy_data.txt", row.names = FALSE)
